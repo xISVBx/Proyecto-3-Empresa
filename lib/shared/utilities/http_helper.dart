@@ -1,9 +1,11 @@
+import 'dart:convert';
+
 import 'package:col_moda_empresa/domain/models/api_response.dart';
 import 'package:col_moda_empresa/shared/utilities/logger_util.dart';
 import 'package:dio/dio.dart';
+import 'package:logger/logger.dart';
 
 class HttpHelper {
-
   /// ✅ **Método genérico para manejar peticiones HTTP**
   static Future<ApiResponse<T>> request<T>({
     required Future<Response> Function() requestFunction,
@@ -20,21 +22,31 @@ class HttpHelper {
   }
 
   /// ✅ **Parsea la respuesta de la API**
-  static ApiResponse<T> _parseResponse<T>(Response response, T Function(dynamic) fromJsonT) {
-    return ApiResponse<T>.fromJson(response.data, fromJsonT);
+  static ApiResponse<T> _parseResponse<T>(
+      Response response, T Function(dynamic) fromJsonT) {
+    print("📥 Recibiendo response.data: ${response.data.runtimeType}");
+
+    // Si response.data es un String, intenta parsearlo a JSON
+    final dynamic jsonData =
+        response.data is String ? jsonDecode(response.data) : response.data;
+    return ApiResponse<T>.fromJson(jsonData, fromJsonT);
   }
 
   /// ✅ **Maneja errores de `DioException`**
-  static ApiResponse<T> _handleDioError<T>(DioException dioError, StackTrace stacktrace, T Function(dynamic) fromJsonT) {
+  static ApiResponse<T> _handleDioError<T>(DioException dioError,
+      StackTrace stacktrace, T Function(dynamic) fromJsonT) {
     if (dioError.response != null && dioError.response?.data != null) {
       try {
         return _parseResponse<T>(dioError.response!, fromJsonT);
-      } catch (_) {
-        LoggerUtil.error("HttpHelper", "Error parseando ApiResponse desde error HTTP: ${dioError.response!.statusCode}\n$stacktrace");
+      } catch (err) {
+        LoggerUtil.error("HttpHelper", err.toString());
+        LoggerUtil.error("HttpHelper",
+            "Error parseando ApiResponse desde error HTTP: ${dioError.response!.statusCode}\n$stacktrace");
       }
     }
 
-    LoggerUtil.error("HttpHelper", "HTTP Error: ${dioError.response?.statusCode ?? 'Desconocido'} - ${dioError.message}\n$stacktrace");
+    LoggerUtil.error("HttpHelper",
+        "HTTP Error: ${dioError.response?.statusCode ?? 'Desconocido'} - ${dioError.message}\n$stacktrace");
 
     return ApiResponse<T>(
       success: false,
@@ -47,7 +59,8 @@ class HttpHelper {
   }
 
   /// ✅ **Maneja errores inesperados**
-  static ApiResponse<T> _handleUnexpectedError<T>(Object e, StackTrace stacktrace) {
+  static ApiResponse<T> _handleUnexpectedError<T>(
+      Object e, StackTrace stacktrace) {
     LoggerUtil.error("HttpHelper", "Error inesperado: $e\n$stacktrace");
     return ApiResponse<T>(
       success: false,

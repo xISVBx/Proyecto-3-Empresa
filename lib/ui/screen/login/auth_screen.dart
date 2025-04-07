@@ -1,16 +1,10 @@
-import 'package:col_moda_empresa/domain/dtos/city_response.dto.dart';
-import 'package:col_moda_empresa/domain/dtos/department_response.dto.dart';
 import 'package:col_moda_empresa/ui/screen/login/provider/auth_provider.dart';
 import 'package:col_moda_empresa/ui/screen/login/widgets/authenticated_view.dart';
 import 'package:col_moda_empresa/ui/screen/login/widgets/login_view.dart';
 import 'package:col_moda_empresa/ui/screen/login/widgets/register_view.dart';
-import 'package:col_moda_empresa/ui/widgets/inputs/custome_dropdown.dart';
-import 'package:col_moda_empresa/ui/widgets/buttons/loading_button.dart';
 import 'package:col_moda_empresa/ui/widgets/views/loading_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:col_moda_empresa/ui/config/app_colors.dart';
-import 'package:col_moda_empresa/ui/widgets/inputs/custome_textfield.dart';
 
 class AuthScreen extends StatefulWidget {
   static const name = "login_screen";

@@ -8,13 +8,17 @@ class CompaniesUseCases {
   final CompanyHttp _companyHttp = CompanyHttp();
 
   /// 📌 **Registra un usuario y devuelve un `Result`**
-  Future<Result<RegisterCompanyResponseDto>> registerCompany(RegisterCompanyRequestDto registerRequest) async {
+  Future<Result<RegisterCompanyResponseDto>> registerCompany(
+      RegisterCompanyRequestDto registerRequest) async {
+    
     var response = await _companyHttp.registerCompany(registerRequest);
 
     if (response.success && response.data != null) {
-      LoggerUtil.info("CompanyUseCases", "Compania registrado exitosamente: ${response.data}");
+      LoggerUtil.info("CompanyUseCases",
+          "Compania registrado exitosamente: ${response.data}");
       return Success(response.data!);
     } else {
+
       String errorMessage = response.errors.isNotEmpty
           ? response.errors.join(", ")
           : "Error desconocido en el registro";

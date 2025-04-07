@@ -1,3 +1,6 @@
+import 'package:col_moda_empresa/shared/utilities/logger_util.dart';
+import 'package:logger/logger.dart';
+
 class RegisterCompanyResponseDto {
   final String companyID;
   final String companyName;

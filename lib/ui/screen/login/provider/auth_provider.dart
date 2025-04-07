@@ -188,6 +188,8 @@ class AuthProvider with ChangeNotifier {
         password: regPassword.text,
         phone: regPhone.text);
 
+    LoggerUtil.info("", "andjandjkajkndnajkkjnasdj ${regPassword.text}");
+
     var response = await _companiesUseCases.registerCompany(registerRequest);
     if (response is Success<RegisterCompanyResponseDto>) {
       LoggerUtil.info("AuthProvider", response.data.toString());

@@ -7,7 +7,9 @@ class DioConfig {
   String? _baseUrl;
 
   DioConfig._internal() {
-    _dio = Dio();
+    _dio = Dio(BaseOptions(
+      responseType: ResponseType.json, // 👈 Asegura que siempre devuelva JSON
+    ));
   }
 
   factory DioConfig() {
@@ -30,9 +32,9 @@ class DioConfig {
   void _updateBaseUrl() {
     if (_baseUrl != null) {
       _dio.options.baseUrl = _baseUrl!;
-      LoggerUtil.info("DioConfig","✅ Base URL actualizada: $_baseUrl");
+      LoggerUtil.info("DioConfig", "✅ Base URL actualizada: $_baseUrl");
     } else {
-      LoggerUtil.warning("DioConfig","⚠️ No hay una Base URL válida.");
+      LoggerUtil.warning("DioConfig", "⚠️ No hay una Base URL válida.");
     }
   }
 

@@ -6,6 +6,7 @@ import 'package:col_moda_empresa/domain/models/result.dart';
 import 'package:col_moda_empresa/infraestructure/external_services/repositories/user.http.dart';
 import 'package:col_moda_empresa/shared/utilities/key_value_storage.dart';
 import 'package:col_moda_empresa/shared/utilities/logger_util.dart';
+import 'package:col_moda_empresa/shared/utilities/snack.dart';
 
 class UsersUseCases {
   final UserHttp _userHttp = UserHttp();
